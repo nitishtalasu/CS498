@@ -89,7 +89,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4703554631672221382}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -109,3 +109,4 @@ MonoBehaviour:
   Explosion: {fileID: 6053333896411109586, guid: 08a8e93ae07687546926fa516b535afb,
     type: 3}
   TimeToReAppear: 5
+  isHit: 0

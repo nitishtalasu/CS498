@@ -7,6 +7,7 @@ public class Menu : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject GameOverMenuUI;
     public GameObject ScoreCountUI;
+    public GameObject ControlsText;
     private bool isGamePaused;
     public static bool isGameEnded = false;
     // Start is called before the first frame update
@@ -67,6 +68,18 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("Starting the game");
         SceneManager.LoadScene(1);
+    }
+
+    public void StartTutorial()
+    {
+        Debug.Log("Starting the tutorial");
+        SceneManager.LoadScene(2);
+    }
+
+    public void ShowControlText()
+    {
+        Debug.Log("Starting the controls");
+        
     }
 
     public void Restart()

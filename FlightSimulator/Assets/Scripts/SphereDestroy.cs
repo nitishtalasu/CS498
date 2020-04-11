@@ -6,7 +6,7 @@ public class SphereDestroy : MonoBehaviour
 	public GameObject Explosion;
 	public int TimeToReAppear = 5;
 
-	private bool isHit;
+	public bool isHit;
 	private DateTime? hitTime;
 	private float timer;
 
@@ -26,7 +26,7 @@ public class SphereDestroy : MonoBehaviour
 
 		var timeDiff = DateTime.UtcNow - hitTime;
 		timer += Time.deltaTime;
-		Debug.Log("Time diff: " + timeDiff?.Seconds);
+		// Debug.Log("Time diff: " + timeDiff?.Seconds);
 
 		//if (timeDiff?.Seconds > TimeToReAppear)
 		if (timer > TimeToReAppear)

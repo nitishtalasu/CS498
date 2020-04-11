@@ -24,7 +24,7 @@ public class Firing : MonoBehaviour
 	/// <summary>
 	/// Check whether we have clock permission to fire. If so, fire and reset clock permission.
 	/// </summary>
-	void ConsiderFiring()
+	public void ConsiderFiring()
 	{
 		if (Time.time > nextFire)
 		{

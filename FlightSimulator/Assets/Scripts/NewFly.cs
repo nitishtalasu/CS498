@@ -17,6 +17,8 @@ public class NewFly : MonoBehaviour
     public float ThrottleChangeSpeed = 0.3f;  
     public float DragIncreaseFactor = 0.001f;
     public float MaximumSpeed = 120.0f;
+    public float MinimumSpeed = 30.0f;
+    public float SpeedEffect = 5.0f;
                  
     private float throttle;                   
     private bool airBrakes;                   
@@ -38,6 +40,9 @@ public class NewFly : MonoBehaviour
 
     public float maxRollAngle = 80;
     public float maxPitchAngle = 80;
+    public float camForwardDistance = 20;
+    public float camRightDistance = 20;
+    public float camUpDistance = 20;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,14 +50,41 @@ public class NewFly : MonoBehaviour
         // Store original drag settings, these are modified during flight.
         originalDrag = rb.drag;
         originalAngularDrag = rb.angularDrag;
+        yawInput = 0;
+
+        //Camera main = Camera.main;
+        //Debug.Log("before transform: " + main.transform.position);
+        //main.transform.localPosition = transform.position - transform.forward * camForwardDistance - Vector3.right * camRightDistance + transform.up * camUpDistance;
+        //Debug.Log("after transform: " + main.transform.position);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (Menu.isGameEnded)
+        {
+            return;
+        }
+
         rollInput = Input.GetAxis("Horizontal");
         pitchInput = Input.GetAxis("Vertical");
-        yawInput = 0;
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            yawInput += YawEffect;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            yawInput -= YawEffect;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            yawInput = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            yawInput = 0;
+        }
+
         airBrakes = Input.GetButton("Fire1");
         throttleInput = airBrakes ? -1 : 1;
 
@@ -63,6 +95,10 @@ public class NewFly : MonoBehaviour
         // Getting the engine power.
         var localVelocity = transform.InverseTransformDirection(rb.velocity);
         forwardSpeed = Mathf.Max(0, localVelocity.z);
+        if (Input.GetButton("Fire2"))
+        {
+            forwardSpeed += SpeedEffect;
+        }
         throttle = Mathf.Clamp01(throttle + throttleInput * Time.deltaTime * ThrottleChangeSpeed);
         enginePower = throttle * MaxEnginePower;
 
@@ -146,6 +182,22 @@ public class NewFly : MonoBehaviour
         var velocity = Vector3.Lerp(rb.velocity, transform.forward * forwardSpeed,
                                        aeroFactor * forwardSpeed * AerodynamicEffect * Time.deltaTime);
 
+        float speed = Vector3.Magnitude(velocity);
+        if (speed > MaximumSpeed)
+        {
+            float speedDiff = speed - MaximumSpeed;
+            Vector3 normalisedVelocity = velocity.normalized;
+            Vector3 velocityDiff = normalisedVelocity * speedDiff;
+            velocity -= velocityDiff;
+        }
+        else if (speed < MinimumSpeed)
+        {
+            float speedDiff = speed - MinimumSpeed;
+            Vector3 normalisedVelocity = velocity.normalized;
+            Vector3 velocityDiff = normalisedVelocity * speedDiff;
+            velocity -= velocityDiff;
+        }
+
         rb.velocity = velocity;
         rb.rotation = Quaternion.Slerp(rb.rotation,
                                               Quaternion.LookRotation(rb.velocity, transform.up),
@@ -178,7 +230,7 @@ public class NewFly : MonoBehaviour
     {
         var torque = Vector3.zero;
         torque += -pitchInput * PitchEffect * transform.right;
-        torque += yawInput * YawEffect * transform.up;
+        torque += -yawInput * YawEffect * transform.up;
         torque += -rollInput * RollEffect * transform.forward;
         torque += bankedTurnAmount * BankedTurnEffect * transform.up;
         rb.AddTorque(torque * forwardSpeed * aeroFactor);

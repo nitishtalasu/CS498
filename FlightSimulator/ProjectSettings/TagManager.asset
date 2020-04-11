@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - TargetSphere
   - ScoreText
+  - TutorialText
   layers:
   - Default
   - TransparentFX
