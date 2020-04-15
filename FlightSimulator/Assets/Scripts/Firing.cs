@@ -29,7 +29,7 @@ public class Firing : MonoBehaviour
 		if (Time.time > nextFire)
 		{
 			GameObject newBullet = Instantiate(BulletObject, transform.position, transform.rotation) as GameObject;
-			newBullet.GetComponent<Rigidbody>().velocity = -transform.up * BulletVelocity;
+			newBullet.GetComponent<Rigidbody>().velocity = -transform.up * (NewFly.PlaneSpeed + BulletVelocity);
 			nextFire = Time.time + FireRate;
 		}
 	}

@@ -18,7 +18,8 @@ public class NewFly : MonoBehaviour
     public float DragIncreaseFactor = 0.001f;
     public float MaximumSpeed = 120.0f;
     public float MinimumSpeed = 30.0f;
-    public float SpeedEffect = 5.0f;
+    public float SpeedEffect = 25.0f;
+    public static float PlaneSpeed;
                  
     private float throttle;                   
     private bool airBrakes;                   
@@ -56,6 +57,8 @@ public class NewFly : MonoBehaviour
         //Debug.Log("before transform: " + main.transform.position);
         //main.transform.localPosition = transform.position - transform.forward * camForwardDistance - Vector3.right * camRightDistance + transform.up * camUpDistance;
         //Debug.Log("after transform: " + main.transform.position);
+        rb.velocity = new Vector3(0, 0, 75);
+        PlaneSpeed = rb.velocity.magnitude;
     }
 
     // Update is called once per frame
@@ -66,6 +69,7 @@ public class NewFly : MonoBehaviour
             return;
         }
 
+        PlaneSpeed = rb.velocity.magnitude;
         rollInput = Input.GetAxis("Horizontal");
         pitchInput = Input.GetAxis("Vertical");
         if (Input.GetKeyDown(KeyCode.Q))
@@ -85,7 +89,7 @@ public class NewFly : MonoBehaviour
             yawInput = 0;
         }
 
-        airBrakes = Input.GetButton("Fire1");
+        airBrakes = Input.GetKey(KeyCode.X);
         throttleInput = airBrakes ? -1 : 1;
 
         CalculateAngles();
@@ -95,7 +99,7 @@ public class NewFly : MonoBehaviour
         // Getting the engine power.
         var localVelocity = transform.InverseTransformDirection(rb.velocity);
         forwardSpeed = Mathf.Max(0, localVelocity.z);
-        if (Input.GetButton("Fire2"))
+        if (Input.GetKey(KeyCode.Z))
         {
             forwardSpeed += SpeedEffect;
         }
@@ -103,7 +107,7 @@ public class NewFly : MonoBehaviour
         enginePower = throttle * MaxEnginePower;
 
         // Finding the drag on the plane.
-        float extraDrag = rb.velocity.magnitude * DragIncreaseFactor;
+        float extraDrag = 0;//rb.velocity.magnitude * DragIncreaseFactor;
         if (airBrakes)
         {
             rb.drag = (originalDrag + extraDrag) * AirBrakesEffect;

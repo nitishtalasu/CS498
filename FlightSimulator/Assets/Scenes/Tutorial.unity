@@ -227,10 +227,10 @@ RectTransform:
   m_Father: {fileID: 222105786}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 750}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 75}
+  m_SizeDelta: {x: 1242, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &475740446
 MonoBehaviour:
@@ -252,10 +252,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 48
+    m_FontSize: 36
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 4
+    m_MinSize: 3
     m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -263,7 +263,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Hello
 --- !u!222 &475740447
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1957,10 +1957,12 @@ MonoBehaviour:
   isYawClockwiseTutorial: 0
   isYawAntiClockwiseTutorial: 0
   isAccelerationTutorial: 1
+  isDecelerationTutorial: 0
   isBulletTutorial: 0
   Lift: 0.002
-  AirBrakesEffect: 3
+  AirBrakesEffect: 0.3
   DragIncreaseFactor: 0.001
+  directionSpeed: 15
 --- !u!1 &2861732998434375489
 GameObject:
   m_ObjectHideFlags: 0

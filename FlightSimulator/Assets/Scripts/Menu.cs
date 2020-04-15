@@ -68,6 +68,7 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("Starting the game");
         SceneManager.LoadScene(1);
+        isGameEnded = false;
     }
 
     public void StartTutorial()
@@ -86,6 +87,7 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("ReStarting the game");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        isGameEnded = false;
     }
     
     public void GameOver()
